@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>多按钮靠近变色</title>
+<style>
+button{margin:40px;padding:10px 20px;font-size:16px;transition:.3s;}
+button.near{background:#ff6600;color:#fff;}
+</style>
+</head>
+<body>
+<button class="proxBtn" style="position: absolute; left: 230px; top: 130px;">按钮A</button>
+<button class="proxBtn" style="position: absolute; left: 463px; top: 129px;">按钮B</button>
+<button class="proxBtn" style="position: absolute; left: 685px; top: 129px;">按钮C</button>
+
+
+<script>
+(function(){
+  const THRESHOLD = 120;
+  const btns = document.querySelectorAll('.proxBtn');
+
+  window.addEventListener('mousemove', e => {
+    btns.forEach(btn => {
+      const r = btn.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width/2);
+      const dy = e.clientY - (r.top + r.height/2);
+      btn.classList.toggle('near', Math.hypot(dx,dy) <= THRESHOLD);
+    });
+  });
+})();
+</script>
+</body>
+</html>

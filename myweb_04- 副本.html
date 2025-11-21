@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>靠近按钮变色示例</title>
+<style type="text/css">
+html,body{
+    height:100%;
+    margin:0;
+}
+body{
+    background:url(picture/whole.png) no-repeat center center;
+    background-size:cover;
+	
+}
+body,td,th {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	font-style: normal;
+	font-weight: 100;
+}
+</style>
+//用于整理背景
+
+	
+/head>
+	
+}
+ <style>
+    #proxBtn {
+	position: absolute;
+	left: 749px;
+	top: 202px;
+	transform: translate(-50%, -50%);
+	padding: 12px 20px;
+	background: #6c757d;
+	color: white;
+	border: 0;
+	border-radius: 6px;
+	transition: background-color 0.12s ease, transform 0.12s ease;
+    }
+    #proxBtn.near {
+      background: #ff5722;
+      transform: translate(-50%, -50%) scale(1.06);
+    }
+  </style>
+</head>
+<body>
+<h1 style="position: absolute; left: 184px; top: 1px; font-family: '仿宋','仿宋_GB2312',serif;">你输入的标题</h1>
+<h1 style="position: absolute; left: 489px; top: 3px; width: 301px; height: 42px;">我的网页，主页</h1>
+<a href="https://www.bilibili.com/" 
+   style="display: inline-block; position: absolute; left: 614px; top: 80px; padding: 20px 20px; border: 2px solid #333; color: #333; text-decoration: none; font-family: '仿宋','仿宋_GB2312',serif; width: 115px; height: 11px;"
+   onmouseover="this.style.borderColor='#000'; this.style.color='#000';"
+   onmouseout="this.style.borderColor='#333'; this.style.color='#333';"> 点一下按钮 </a>
+<button id="proxBtn">靠近我变色</button>
+<script>
+    (function () {
+      const btn = document.getElementById('proxBtn');
+
+      // 距离阈值（像素）
+      const THRESHOLD = 120; // 调整感应距离
+
+      function onMouseMove(e) {
+        const rect = btn.getBoundingClientRect();
+        // 计算按钮中心
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        btn.classList.toggle('near', dist <= THRESHOLD);
+      }
+
+      window.addEventListener('mousemove', onMouseMove);
+    })();
+  </script>
+</body>
+	
+
+
+</html>

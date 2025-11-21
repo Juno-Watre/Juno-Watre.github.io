@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>靠近按钮变色示例</title>
+<style type="text/css">
+html,body{
+    height:100%;
+    margin:0;
+}
+body{
+    background:url(picture/whole.png) no-repeat center center;
+    background-size:cover;
+	
+}
+body,td,th {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	font-style: normal;
+	font-weight: 100;
+}
+</style>
+	
+}
+ <style>
+    #proxBtn {
+	position: absolute;
+	left: 770px;
+	top: 164px;
+	transform: translate(-50%, -50%);
+	padding: 12px 20px;
+	background: #6c757d;
+	color: white;
+	border: 0;
+	border-radius: 6px;
+	transition: background-color 0.12s ease, transform 0.12s ease;
+	height: 586px;
+	width: 220px;
+    }
+    #proxBtn.near {
+      background: #ff5722;
+      transform: translate(-50%, -50%) scale(1.06);
+    }
+  </style>
+</head>
+<body>
+<a href="https://www.bilibili.com/" 
+   style="display: inline-block; position: absolute; left: 578px; top: 536px; padding: 20px 20px; border: 2px solid #333; color: #333; text-decoration: none; font-family: '仿宋','仿宋_GB2312',serif; width: 115px; font-size: 19px; height: 13px;"
+   onmouseover="this.style.borderColor='#000'; this.style.color='#000';"
+   onmouseout="this.style.borderColor='#333'; this.style.color='#333';"> </a>
+<a href="https://www.bilibili.com/" 
+   style="display: inline-block; position: absolute; left: 577px; top: 176px; padding: 20px 20px; border: 2px solid #333; color: #333; text-decoration: none; font-family: '仿宋','仿宋_GB2312',serif; width: 106px; font-size: 19px; height: 16px;"
+   onmouseover="this.style.borderColor='#000'; this.style.color='#000';"
+   onmouseout="this.style.borderColor='#333'; this.style.color='#333';"> </a>
+<a href="https://www.bilibili.com/" 
+   style="display: inline-block; position: absolute; left: 577px; top: 672px; padding: 20px 20px; border: 2px solid #333; color: #333; text-decoration: none; font-family: '仿宋','仿宋_GB2312',serif; width: 115px; font-size: 19px; height: 13px;"
+   onmouseover="this.style.borderColor='#000'; this.style.color='#000';"
+   onmouseout="this.style.borderColor='#333'; this.style.color='#333';">  </a>
+<a href="https://www.bilibili.com/" 
+   style="display: inline-block; position: absolute; left: 577px; top: 267px; padding: 20px 20px; border: 2px solid #333; color: #333; text-decoration: none; font-family: '仿宋','仿宋_GB2312',serif; width: 110px; font-size: 19px; height: 14px;"
+   onmouseover="this.style.borderColor='#000'; this.style.color='#000';"
+   onmouseout="this.style.borderColor='#333'; this.style.color='#333';"> </a>
+<a href="https://www.bilibili.com/" 
+   style="display: inline-block; position: absolute; left: 571px; top: 378px; padding: 20px 20px; border: 2px solid #333; color: #333; text-decoration: none; font-family: '仿宋','仿宋_GB2312',serif; width: 115px; font-size: 19px; height: 11px;"
+   onmouseover="this.style.borderColor='#000'; this.style.color='#000';"
+   onmouseout="this.style.borderColor='#333'; this.style.color='#333';">   </a>
+<button class="proxBtn" style="position: absolute; left: 576px; top: 398px; width: 149px; height: 33px; background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 50, 69,0.5);"> </button>
+<button class="proxBtn" style="position: absolute; left: 578px; top: 297px; width: 154px; height: 26px; background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 50, 69,0.5);"></button>
+<button class="proxBtn" style="position: absolute; left: 575px; top: 206px; width: 154px; height: 26px; background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 50, 69, 0.5);"></button>
+<button class="proxBtn" style="position: absolute; left: 578px; top: 563px; width: 154px; height: 28px; background: yellow; border: 1px solid rgba(255,50,69,.5); transition: .3s;"></button>
+<button class="proxBtn" style="position: absolute; left: 576px; top: 699px; width: 154px; height: 28px; background: yellow; border: 1px solid rgba(255,50,69,.5); transition: .3s;"></button>
+<style>
+.proxBtn.near { background:blue !important; }
+</style>
+
+<script>
+(function(){
+  const THRESHOLD = 90;
+  const btns = document.querySelectorAll('.proxBtn');
+
+  window.addEventListener('mousemove', e => {
+    btns.forEach(btn => {
+      const r = btn.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width/2);
+      const dy = e.clientY - (r.top + r.height/2);
+      btn.classList.toggle('near', Math.hypot(dx,dy) <= THRESHOLD);
+    });
+  });
+})();
+</script>
+
+<h1 style="position: absolute; left: 186px; top: 45px; font-family: '仿宋','仿宋_GB2312',serif; width: 157px;">你输入的标题</h1>
+<h1 style="position: absolute; left: 187px; top: 3px; width: 154px; height: 42px;">主页</h1>
+</body>
+	
+
+
+</html>
