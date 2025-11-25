@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Site</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 侧边栏 - 玻璃拟态效果 */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 32px 24px;
+            border-right: 1px solid rgba(94, 234, 212, 0.1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5eead4 0%, #0ea5e9 100%);
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0f172a;
+            font-size: 36px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(94, 234, 212, 0.3);
+        }
+
+        .name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #f8fafc;
+        }
+
+        .bio {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* 导航 - 荧光蓝绿 */
+        .nav {
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #cbd5e1;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(94, 234, 212, 0.1);
+            color: #5eead4;
+        }
+
+        .nav-item.active {
+            background: rgba(94, 234, 212, 0.15);
+            color: #5eead4;
+            border: 1px solid rgba(94, 234, 212, 0.3);
+            box-shadow: 0 0 15px rgba(94, 234, 212, 0.2);
+        }
+
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            opacity: 0.8;
+        }
+
+        /* 暗黑开关 */
+        .theme-toggle {
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: rgba(94, 234, 212, 0.1);
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            color: #5eead4;
+            border: 1px solid rgba(94, 234, 212, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(94, 234, 212, 0.2);
+            box-shadow: 0 0 15px rgba(94, 234, 212, 0.2);
+        }
+
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            padding: 48px;
+            overflow-y: auto;
+            background: transparent;
+        }
+
+        /* Dashboard - 玻璃拟态卡片 */
+        .dashboard {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #5eead4 0%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 10px rgba(94, 234, 212, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #94a3b8;
+        }
+
+        /* 音乐播放器 - 玻璃拟态 */
+        .music-player {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(94, 234, 212, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(2, 8, 20, 0.4);
+        }
+
+        .player-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .album-cover {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #5eead4 0%, #0ea5e9 100%);
+            margin-right: 16px;
+            box-shadow: 0 0 15px rgba(94, 234, 212, 0.3);
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #f8fafc;
+        }
+
+        .song-artist {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: rgba(94, 234, 212, 0.1);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: #5eead4;
+            border: 1px solid rgba(94, 234, 212, 0.2);
+        }
+
+        .control-btn:hover {
+            background: rgba(94, 234, 212, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(94, 234, 212, 0.3);
+        }
+
+        .play-btn {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #5eead4 0%, #0ea5e9 100%);
+            color: #0f172a;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #5eead4 0%, #0ea5e9 100%);
+            border-radius: 2px;
+            width: 35%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(94, 234, 212, 0.5);
+        }
+
+        /* 互动彩蛋区 */
+        .interactive-area {
+            background: transparent;
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .interactive-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .interactive-title {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #5eead4;
+        }
+
+        .mouse-trail {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #5eead4;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: trail-fade 1s ease-out forwards;
+            box-shadow: 0 0 10px #5eead4;
+        }
+
+        @keyframes trail-fade {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        /* 内容页面 */
+        .page-content {
+            display: none;
+            background: transparent;
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(94, 234, 212, 0.1);
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #f8fafc;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid rgba(94, 234, 212, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(2, 8, 20, 0.5);
+            border: 1px solid rgba(94, 234, 212, 0.3);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #f8fafc;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(94, 234, 212, 0.1);
+            }
+            
+            .main-content {
+                padding: 24px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="profile">
+            <div class="avatar">A</div>
+            <div class="name">Your Name</div>
+            <div class="bio">Full-stack dreamer<br>Building tiny beautiful things</div>
+        </div>
+        
+        <nav class="nav">
+            <div class="nav-item active" data-page="dashboard">
+                <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                </svg>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" data-page="works">
+                <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000 2H6a2 2 0 00-2 2v6a2 2 0 002 2h2a1 1 0 100-2H6V7h5a1 1 0 011 1v5h2V8a3 3 0 00-3-3H6z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Works</span>
+            </div>
+            <div class="nav-item" data-page="blog">
+                <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Blog</span>
+            </div>
+            <div class="nav-item" data-page="photos">
+                <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Photos</span>
+            </div>
+            <div class="nav-item" data-page="resume">
+                <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Resume</span>
+            </div>
+            <div class="nav-item" data-page="contact">
+                <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                </svg>
+                <span>Contact</span>
+            </div>
+        </nav>
+        
+        <div class="theme-toggle" id="themeToggle">
+            <span>🌙 Dark Mode</span>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- Dashboard 页面 -->
+        <div id="dashboard" class="page-content active">
+            <div class="dashboard">
+                <div class="hero-section">
+                    <h1 class="hero-title">Hi, I'm a Builder.</h1>
+                    <p class="hero-subtitle">Crafting code & coffee into tiny beautiful things.</p>
+                </div>
+
+                <div class="music-player">
+                    <div class="player-header">
+                        <div class="album-cover"></div>
+                        <div class="song-info">
+                            <div class="song-title">Lofi Chill</div>
+                            <div class="song-artist">Unknown Artist</div>
+                        </div>
+                    </div>
+                    <div class="player-controls">
+                        <button class="control-btn">⏮</button>
+                        <button class="control-btn play-btn" id="playBtn">▶</button>
+                        <button class="control-btn">⏭</button>
+                    </div>
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                </div>
+
+                <div class="interactive-area" id="interactiveArea">
+                    <canvas id="particle-canvas"></canvas>
+                    <div class="interactive-content">
+                        <div class="interactive-title">Interactive Corner</div>
+                        <p style="color: #94a3b8;">Move your mouse around ✨</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Works 页面 -->
+        <div id="works" class="page-content">
+            <h1 class="page-title">Works</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title">Project Alpha</div>
+                    <div class="card-description">A full-stack web application built with React and Node.js</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Project Beta</div>
+                    <div class="card-description">Mobile app for productivity tracking</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Project Gamma</div>
+                    <div class="card-description">AI-powered content recommendation system</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog 页面 -->
+        <div id="blog" class="page-content">
+            <h1 class="page-title">Blog</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title">Building My Personal Site</div>
+                    <div class="card-description">How I designed and developed this website from scratch</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Web Development Trends 2024</div>
+                    <div class="card-description">Exploring the latest trends in modern web development</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photos 页面 -->
+        <div id="photos" class="page-content">
+            <h1 class="page-title">Photos</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title">Street Photography</div>
+                    <div class="card-description">Collection of urban street photography</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Nature Shots</div>
+                    <div class="card-description">Beautiful landscapes and nature photography</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume 页面 -->
+        <div id="resume" class="page-content">
+            <h1 class="page-title">Resume</h1>
+            <div class="card">
+                <div class="card-title">Experience</div>
+                <div class="card-description">
+                    <p><strong>Senior Developer</strong> - Tech Company (2020-Present)</p>
+                    <p><strong>Full-stack Developer</strong> - Startup (2018-2020)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact 页面 -->
+        <div id="contact" class="page-content">
+            <h1 class="page-title">Contact</h1>
+            <div class="card">
+                <div class="card-title">Get in Touch</div>
+                <div class="card-description">
+                    <p>Email: your.email@example.com</p>
+                    <p>GitHub: github.com/yourname</p>
+                    <p>Twitter: @yourname</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 页面切换
+        const navItems = document.querySelectorAll('.nav-item');
+        const pageContents = document.querySelectorAll('.page-content');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetPage = item.dataset.page;
+                
+                // 更新导航状态
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                // 切换页面
+                pageContents.forEach(page => page.classList.remove('active'));
+                document.getElementById(targetPage).classList.add('active');
+            });
+        });
+
+        // 音乐播放器
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progress = document.getElementById('progress');
+        let isPlaying = false;
+        let progressWidth = 35;
+
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playBtn.textContent = isPlaying ? '⏸' : '▶';
+            
+            if (isPlaying) {
+                simulatePlayback();
+            }
+        });
+
+        function simulatePlayback() {
+            if (isPlaying && progressWidth < 100) {
+                progressWidth += 0.5;
+                progress.style.width = progressWidth + '%';
+                setTimeout(simulatePlayback, 100);
+            } else if (progressWidth >= 100) {
+                progressWidth = 0;
+                if (isPlaying) simulatePlayback();
+            }
+        }
+
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            progressWidth = (x / rect.width) * 100;
+            progress.style.width = progressWidth + '%';
+        });
+
+        // 粒子动画
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: 0, y: 0 };
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = '#5eead4';
+                this.opacity = 1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.01;
+                if (this.opacity <= 0) {
+                    this.opacity = 0;
+                    particles = particles.filter(p => p !== this);
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(94, 234, 212, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 创建新粒子
+            if (Math.random() < 0.1) {
+                particles.push(new Particle(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height
+                ));
+            }
+            
+            // 更新和绘制粒子
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // 鼠标轨迹
+        document.addEventListener('mousemove', (e) => {
+            const interactiveArea = document.getElementById('interactiveArea');
+            const rect = interactiveArea.getBoundingClientRect();
+            
+            if (e.clientX >= rect.left && e.clientX <= rect.right &&
+                e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                
+                const trail = document.createElement('div');
+                trail.className = 'mouse-trail';
+                trail.style.left = (e.clientX - rect.left) + 'px';
+                trail.style.top = (e.clientY - rect.top) + 'px';
+                interactiveArea.appendChild(trail);
+                
+                setTimeout(() => trail.remove(), 1000);
+            }
+        });
+
+        // 暗黑模式切换
+        const themeToggle = document.getElementById('themeToggle');
+        let isDarkMode = true;
+
+        themeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                document.body.style.background = 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+                document.body.style.color = '#e2e8f0';
+                themeToggle.innerHTML = '<span>🌙 Dark Mode</span>';
+            } else {
+                document.body.style.background = 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)';
+                document.body.style.color = '#0f172a';
+                themeToggle.innerHTML = '<span>☀️ Light Mode</span>';
+            }
+        });
+    </script>
+</body>
+</html>
+```

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的文章目录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .search-filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .article-image {
+            height: 180px;
+            background-color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .article-content {
+            padding: 20px;
+        }
+        
+        .article-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .article-excerpt {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #95a5a6;
+        }
+        
+        .article-category {
+            background: #ecf0f1;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        @media (max-width: 768px) {
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>文章目录</h1>
+            <p class="subtitle">故事的目录</p>
+        </header>
+        
+        <div class="search-filter">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索文章...">
+            </div>
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="技术">敬请期待</button>
+                <button class="filter-btn" data-filter="生活">敬请期待</button>
+                <button class="filter-btn" data-filter="读书">敬请期待</button>
+                <button class="filter-btn" data-filter="思考">敬请期待</button>
+            </div>
+        </div>
+        
+        <div class="articles-grid" id="articlesContainer">
+            <!-- 文章卡片将通过JavaScript动态生成 -->
+        </div>
+        
+        <footer>
+            <p>© 2025 我的文章目录 | 共3<span id="articleCount"></span> 篇文章</p>
+        </footer>
+    </div>
+    <a href="Story01.html">跳转至1</a>
+	<a href="Story02.html">跳转至2</a>
+	<a href="Story03.html">跳转至3</a>
+    <script>
+        // 示例文章数据
+        const articles = [
+            {
+                id: 1,
+                title: "story01",
+                excerpt: "",
+                category: "",
+                date: "",
+                color: "#3498db"
+            },
+            {
+                id: 2,
+                title: "story02",
+                excerpt: "",
+                category: "",
+                date: "",
+                color: "#2ecc71"
+            },
+            {
+                id: 3,
+                title: "story03",
+                excerpt: "",
+                category: "",
+                date: "",
+                color: "#9b59b6"
+            },
+        ];
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            const articlesContainer = document.getElementById('articlesContainer');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('searchInput');
+            const articleCount = document.getElementById('articleCount');
+            
+            // 渲染文章
+            function renderArticles(articlesToRender) {
+                articlesContainer.innerHTML = '';
+                articlesToRender.forEach(article => {
+                    const articleCard = document.createElement('div');
+                    articleCard.className = 'article-card';
+                    articleCard.innerHTML = `
+                        <div class="article-image" style="background-color: ${article.color}">
+                            ${article.title.substring(0, 2)}
+                        </div>
+                        <div class="article-content">
+                            <h3 class="article-title">${article.title}</h3>
+                            <p class="article-excerpt">${article.excerpt}</p>
+                            <div class="article-meta">
+                                <span class="article-category">${article.category}</span>
+                                <span class="article-date">${article.date}</span>
+                            </div>
+                        </div>
+                    `;
+                    articlesContainer.appendChild(articleCard);
+                });
+                
+                // 更新文章计数
+                articleCount.textContent = articlesToRender.length;
+            }
+            
+            // 初始渲染
+            renderArticles(articles);
+            
+            // 筛选功能
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 更新活动按钮
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    let filteredArticles;
+                    
+                    if (filter === 'all') {
+                        filteredArticles = articles;
+                    } else {
+                        filteredArticles = articles.filter(article => article.category === filter);
+                    }
+                    
+                    renderArticles(filteredArticles);
+                });
+            });
+            
+            // 搜索功能
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredArticles = articles.filter(article => 
+                    article.title.toLowerCase().includes(searchTerm) || 
+                    article.excerpt.toLowerCase().includes(searchTerm) ||
+                    article.category.toLowerCase().includes(searchTerm)
+                );
+                
+                renderArticles(filteredArticles);
+            });
+        });
+    </script>
+</body>
+</html>
