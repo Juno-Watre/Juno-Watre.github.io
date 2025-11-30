@@ -333,6 +333,46 @@
             gap: 24px;
         }
 
+        /* Photos gallery (scoped to #photos) */
+        #photos .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        #photos .photo-card {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: left;
+            padding: 0;
+            border: 1px solid rgba(94, 234, 212, 0.08);
+        }
+
+        #photos .photo-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+
+        #photos .photo-meta {
+            padding: 12px 14px;
+        }
+
+        #photos .photo-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #f8fafc;
+            margin-bottom: 6px;
+        }
+
+        #photos .photo-desc {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
+
         .card {
             background: rgba(15, 23, 42, 0.5);
             border-radius: 12px;
@@ -540,15 +580,31 @@
         <!-- Photos 页面 -->
         <div id="photos" class="page-content">
             <h1 class="page-title">Photos</h1>
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-title">敬请期待</div>
-                    <div class="card-description">敬请期待</div>
+            <div class="photo-grid">
+                <div class="photo-card">
+                    <img src="picture/01.jpg" alt="Photo 1">
+                    <div class="photo-meta">
+                        <div class="photo-title">城市剪影</div>
+                        <div class="photo-desc">晚上的楼房轮廓与灯光。</div>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="card-title">Nature Shots</div>
-                    <div class="card-description">敬请期待</div>
+
+                <div class="photo-card">
+                    <img src="picture/02.jpg" alt="Photo 2">
+                    <div class="photo-meta">
+                        <div class="photo-title">天空</div>
+                        <div class="photo-desc">秋天纯净的天空</div>
+                    </div>
                 </div>
+
+                <div class="photo-card">
+                    <img src="picture/03.png" alt="Photo 2">
+                    <div class="photo-meta">
+                        <div class="photo-title">夜景</div>
+                        <div class="photo-desc">夜晚的城市</div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
